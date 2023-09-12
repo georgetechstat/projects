@@ -6,47 +6,77 @@
     <title>Lasagna recipe</title>
 
     <style>
-        body {
-            font-family: sans-serif;
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
-            background: linear-gradient(180deg, #afafaf, #ffffff);
+            box-sizing: border-box;
+        }
+
+        body {
+            display: block;
+            width: 100%;
             height: 100%;
-            align-items: center;
+            font-size: 10px;
+            background-color: white;
         }
-        h1 {
-            margin: 0 0 10px 0;
-            padding: 10px 0;
-            text-align: center;
-            background-color: rgb(65, 65, 65);
-            color: rgb(255, 255, 255);
-            border-bottom: solid white 4px;
-        }
+
         img {
-            width: 500px;
+            max-width: 500px;
             display: block;
-            margin-left: auto;
-            margin-right: auto;
+            margin-top: 5%;
+            border: solid black 2px;
         }
-        article {
+
+        header {
             display: block;
-            text-align: left;
-            padding-left: 10px;
-        }
-        article h2 {
-            max-width: 80%;
-            text-indent: 2ch;
-        }
-        li {
-            margin: 10px 0;
+            padding: 2% 0;
+            background-color: white;
+            box-shadow: 2px 3px 5px 1px rgba(0,0,0,0.64);
+            -webkit-box-shadow: 2px 3px 5px 1px rgba(0,0,0,0.64);
+            -moz-box-shadow: 2px 3px 5px 1px rgba(0,0,0,0.64);
+            text-align: center;
             font-size: 20px;
+        }
+
+        main {
+            display: inline-block;
+            padding-left: 10%;
+            width: 100%;
+        }
+
+        h2 {
+            margin: 5% 0;
+            max-width: 60%;
+            font-size: 30px;
+        }
+
+        ul {
+            display: block;
+            padding: 0 0 5% 0;
+        }
+
+        li {
+            display: list-item;
+            font-size: 20px;
+            margin: 1% 0;
+        }
+        button {
+            border: none;
+            padding: 20px;
+            font-size: 25px;
+            background-color: rgb(49, 162, 255);
+            color: white;
+            border-radius: 5%;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>Lasagna recipe</h1>
-    <img src="./images/lasagna.jpg" alt="Image of a lasagna">
-    <article>
+    <header>
+        <h1>Lasagna recipe</h1>
+    </header>
+    <main>
+        <img src="./images/lasagna.jpg" alt="Image of a lasagna">
         <h2>
             The Allrecipes community adores this lasagna recipe because it's incredibly customizable, 
             so you can easily alter the ingredient list to suit your needs. 
@@ -77,7 +107,8 @@
             <li>
                 Egg: An egg helps bind the ricotta so it doesn't ooze out of the lasagna when you cut into it.
             </li>
-        </ul>    
-    </article>
+        </ul>
+        <a href="#"><button>Scroll Up</button></a>
+    </main>
 </body>
 </html>
