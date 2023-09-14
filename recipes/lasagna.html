@@ -28,7 +28,9 @@
         }
 
         header {
-            display: block;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            width: 100%;
             padding: 2% 0;
             background-color: white;
             box-shadow: 2px 3px 5px 1px rgba(0,0,0,0.64);
@@ -69,10 +71,26 @@
             border-radius: 5%;
             cursor: pointer;
         }
+        .backButton {
+            color: white;
+            padding: 10px 20px;
+            background-color: rgb(49, 162, 255);
+            text-decoration: none;
+            font-family: sans-serif;
+            border-radius: 5px;
+            display: inline-block;
+            grid-column-start: 1;
+            grid-column-end: 2;
+            width: min-content;
+            height: min-content;
+            justify-self: left;
+            margin-left: 20px;
+        }
     </style>
 </head>
 <body>
     <header>
+        <a href="./index.html" class="backButton">Back</a>
         <h1>Lasagna recipe</h1>
     </header>
     <main>
