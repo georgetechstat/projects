@@ -1,0 +1,15 @@
+/* 
+    + <-- selects next of type
+    example
+    .group {div.group1, div.group2, div.group3}
+    div.group1 + div <-- selects group2 because it is the next of div type
+*/
+/*
+    <element> > <type> <-- selects only child elements, not grandchild
+    <element> > <type> > <type> <-- selects grandchild elements and so on.
+    example:
+    .group { div.group1{div, div}, div.group2{div, div}, div.group3{div, div} }
+    div.group > div <-- selects only group1, group2, group3 elements to be styled, not the ones inside them
+    div.gorup > div > div <-- selects only the children inside group1, group2, group3
+    div.gorup div <-- selects all the divs including grandchildren of divs
+*/
