@@ -1,0 +1,16 @@
+My custom keybinds:
+[
+Wrap with abbreviation: ctrl + k & ctrl + shift + a,
+Remove Tag: ctrl + r & ctrl + t
+]
+
+Wrap with abbreviation
+https://docs.emmet.io/actions/wrap-with-abbreviation/
+
+Remove Tag
+https://docs.emmet.io/actions/remove-tag/
+
+To set up the keybinds:
+go to keyboard shortcut settings (ctrl + k & ctrl + s)
+type: Emmet:<action>, in my case: emmet:Wrap with abbreviation
+click plus sign and type your custom shortcut. done!
