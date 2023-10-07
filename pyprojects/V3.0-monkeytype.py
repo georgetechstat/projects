@@ -9,6 +9,7 @@ browser = start_chrome(url, headless=False) # headless = True if you want the br
 soup = BeautifulSoup(browser.page_source, "html.parser")
 kb = Controller()
 time.sleep(2) # Let the browser fully load dynamic DOM elements
+KEYDELAY: float = 0.05
 
 word_element = soup.find_all(attrs={"class":"word"})
 
@@ -30,10 +31,10 @@ def write_text(txt: list[str]) -> None:
 
         for letter in word:
             kb.press(letter)
-            time.sleep(0.1)
+            time.sleep(KEYDELAY)
             kb.release(letter)
         kb.press(Key.space)
-        time.sleep(0.1)
+        time.sleep(KEYDELAY)
         kb.release(Key.space)
 
 time.sleep(2)
