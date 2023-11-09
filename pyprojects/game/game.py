@@ -1,64 +1,82 @@
 import pygame
-import settings
-import level
-from player import *
+import sys
 
-# TODO 1: change the way the level updates (instead of clearing layout, move the Tile objects to different cells and add more tiles if needed)
-# TODO 2: create proper movement (based on acceleration, velocity)
+#* currently at 2hr 6min mark on chapter "transforming surfaces" on clear code pygame tutorial
+
+def display_score():
+    current_time = int(pygame.time.get_ticks() / 1000) - start_time
+    score_surf = test_font.render(f'Score: {current_time}', False, (64, 64, 64))
+    score_rect = score_surf.get_rect(center=(400, 50))
+    screen.blit(score_surf, score_rect)
 
 pygame.init()
 
-screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
-pygame.display.set_caption("Shooter")
+screen = pygame.display.set_mode((800, 400))
 clock = pygame.time.Clock()
+pygame.display.set_caption("Runner")
 
-# initial level setup
-lvl = level.Level(level.level_1)
-lvl.fill_level_tiles()
+# Create a font
+test_font = pygame.font.Font("font/Pixeltype.ttf", 50)
+game_active = True
+start_time = 0
 
-plr = pygame.sprite.GroupSingle( Player((40, 40)) )
-pplr = plr.sprite
+sky_surface = pygame.image.load("graphics/Sky.png").convert() # .convert() makes blitting faster
+ground_surface = pygame.image.load("graphics/ground.png").convert()
 
-keys = None
+# score_surf = test_font.render("My game", False, "Black")
+# score_rect = score_surf.get_rect(midtop=(400, 50))
 
-def key_handler(keys) -> None:
-    if keys[pygame.K_DOWN]:
-        pplr.vel[1] = 5
-    
-    if keys[pygame.K_RIGHT]:
-        pplr.vel[0] = 5
-    
-    if keys[pygame.K_LEFT]:
-        pplr.vel[0] = -5
-    
-    if keys[pygame.K_UP]:
-        pplr.vel[1] = -5
 
-def collision_handler(sp, gp) -> None:
-    for tile in gp:
-        if abs(tile.rect.top - pplr.rect.bottom) < 10:
-            sp.rect.centery -= abs(tile.rect.top - sp.rect.bottom)
-        if abs(tile.rect.bottom - sp.rect.top) < 10:
-            sp.rect.centery += abs(tile.rect.bottom - sp.rect.top)
-        if abs(tile.rect.right - sp.rect.left) < 10:
-            sp.rect.centerx += abs(tile.rect.right - sp.rect.left)
-        if abs(tile.rect.left - sp.rect.right) < 10:
-            sp.rect.centerx -= abs(tile.rect.left - sp.rect.right)
+snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
+snail_rect = snail_surface.get_rect(midbottom=(800, 300))
+
+player_surf = pygame.image.load("graphics/player/player_walk_1.png").convert_alpha()
+player_rect = player_surf.get_rect(midbottom=(80,300))
+
+player_gravity = 0
+
 
 while True:
-    screen.fill((0, 0, 0))
-    lvl.tiles.draw(screen)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            exit()
+            sys.exit()
+        
+        if game_active:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and player_rect.bottom >= 300:
+                    player_gravity = -20
+        else:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE: 
+                    game_active = True
+                    snail_rect.left = 800
+                    start_time = int(pygame.time.get_ticks() / 1000)
 
-    key_handler(pygame.key.get_pressed())
-    tile_hitlist = pygame.sprite.spritecollide(pplr, lvl.tiles, False)
-    if (tile_hitlist):
-        collision_handler(pplr, tile_hitlist)
 
-    plr.draw(screen)
+    if game_active:
+        screen.blit(sky_surface, (0, 0))
+        screen.blit(ground_surface, (0, 300))
+        # screen.blit(score_surf, score_rect)
+        display_score()
+
+        #* snail
+        snail_rect.x -= 4
+        if snail_rect.right <= 0:
+            snail_rect.left = 800
+        screen.blit(snail_surface, snail_rect)
+
+        #* player
+        player_gravity += 1
+        player_rect.y += player_gravity
+        if player_rect.bottom >= 300: player_rect.bottom = 300
+        screen.blit(player_surf, player_rect)
+
+        #* game state
+        if snail_rect.colliderect(player_rect):
+            game_active = False
+    else:
+        screen.fill("Yellow")
 
     pygame.display.update()
     clock.tick(60)
