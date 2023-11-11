@@ -21,9 +21,7 @@ class Game:
 
     def run(self):
         tg_manager = TargetManager(self.screen)
-
-        for _ in range(12):
-            tg_manager.create_target(size=60, random_alive_time=True, min_alive_time=3, max_alive_time=15)
+        tg_manager.population_size = 12
 
         while True:
             self.screen.fill(self.bg_color)

@@ -2,11 +2,14 @@ import pygame, random
 import numpy as np
 
 class Target(pygame.sprite.Sprite):
-    def __init__(self, pos, size=50, min_alive_time=2, max_alive_time=5, random_alive_time: bool = False):
+    def __init__(self, pos, size=50, min_alive_time=2, max_alive_time=5, random_alive_time: bool = False, target_img=None):
         super().__init__()
         self.size = size
-        self.image = pygame.Surface((self.size, self.size))
-        self.image.fill("Red")
+        if target_img:
+            self.image = pygame.transform.scale(target_img, (size, size))
+        else:
+            self.image = pygame.Surface((size, size))
+            self.image.fill("Red")
         self.rect = self.image.get_rect(center=pos)
 
         self.creation_time = pygame.time.get_ticks()
@@ -41,6 +44,23 @@ class TargetManager:
         self.surface: pygame.Surface = surface
         self.surface_rect = self.surface.get_rect()
         self.targets = pygame.sprite.Group()
+        self.target_img = pygame.image.load("images/target.png").convert_alpha()
+        self._population_size: int = 5
+        self.__max_population_size: int = 20
+
+    @property
+    def population_size(self) -> int:
+        return self._population_size
+
+    @population_size.setter
+    def population_size(self, size: int) -> None:
+        if isinstance(size, int):
+            if size <= self.__max_population_size:
+                self._population_size = size
+            else:
+                print(f"Population size must be below or equal to {self.__max_population_size}")
+        else:
+            print(f"population size must be of type int, not {type(size)}")
 
     def target_mouse_response(self):
         pos = pygame.mouse.get_pos()
@@ -53,11 +73,18 @@ class TargetManager:
         random_y = random.randint(self.surface_rect.top, self.surface_rect.bottom)
         return (random_x, random_y)
 
-    def create_target(self, pos=None, size=50, min_alive_time:float=2, max_alive_time:float=5, random_alive_time:bool=False) -> None:
+    def create_target(self, pos=None, size=100, min_alive_time:float=2, max_alive_time:float=5, random_alive_time:bool=False) -> None:
         if pos:
-            self.targets.add( Target(pos, size, min_alive_time, max_alive_time, random_alive_time) )
+            self.targets.add( Target(pos, size, min_alive_time, max_alive_time, random_alive_time, self.target_img) )
         else:
-            target = Target(self.__random_pos(), size, min_alive_time, max_alive_time, random_alive_time)
+            taken_area = size**2 * self.targets.__len__()
+            surface_size = self.surface.get_size()
+
+            if taken_area + size ** 2 >= surface_size[0] * surface_size[1]:
+                print("Area exceeded")
+                return
+            
+            target = Target(self.__random_pos(), size, min_alive_time, max_alive_time, random_alive_time, self.target_img)
 
             while pygame.sprite.spritecollide(target, self.targets, False):
                 target.rect.center = self.__random_pos()
@@ -65,5 +92,5 @@ class TargetManager:
             self.targets.add(target)
     
     def update(self):
-        if self.targets.__len__() < 10:
+        if self.targets.__len__() < self.population_size:
             self.create_target()
