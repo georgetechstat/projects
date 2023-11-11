@@ -86,6 +86,7 @@ class TargetManager:
             
             target = Target(self.__random_pos(), size, min_alive_time, max_alive_time, random_alive_time, self.target_img)
 
+            #! TOFIX: infinite loop, tries to scan for available area when there is none 
             while pygame.sprite.spritecollide(target, self.targets, False):
                 target.rect.center = self.__random_pos()
 
