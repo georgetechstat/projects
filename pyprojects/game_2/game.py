@@ -1,5 +1,5 @@
 import pygame, sys, random
-from sprites import Target
+from sprites import Target, TargetManager
 import numpy as np
 
 # TODO: add Target spawn logic: if generated_target collides with others: create new spawn (repeat until not colliding)
@@ -17,11 +17,14 @@ class Game:
         pygame.display.set_caption("Target practice")
 
         self.active: bool = True
-        self.targets = pygame.sprite.Group()
         self.bg_color = np.array([135, 206, 235])
 
     def run(self):
-        self.targets.add(Target((200, 300)))
+        tg_manager = TargetManager(self.screen)
+
+        for _ in range(12):
+            tg_manager.create_target(size=60, random_alive_time=True, min_alive_time=3, max_alive_time=15)
+
         while True:
             self.screen.fill(self.bg_color)
             for event in pygame.event.get():
@@ -29,15 +32,12 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 
-                if self.active:
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        for target in self.targets:
-                            if target.rect.collidepoint(event.pos):
-                                target.destroy()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    tg_manager.target_mouse_response()
 
             if self.active:
-                self.targets.update()
-                self.targets.draw(self.screen)
+                tg_manager.targets.update()
+                tg_manager.targets.draw(self.screen)
             else:
                 pass
 
