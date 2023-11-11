@@ -36,6 +36,7 @@ class Game:
                     tg_manager.target_mouse_response()
 
             if self.active:
+                tg_manager.update()
                 tg_manager.targets.update()
                 tg_manager.targets.draw(self.screen)
             else:
