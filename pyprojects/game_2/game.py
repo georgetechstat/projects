@@ -3,6 +3,7 @@ from sprites import Target, TargetManager
 import numpy as np
 
 # TODO: add Target spawn logic: if generated_target collides with others: create new spawn (repeat until not colliding)
+# !BUG: inside sprites.py -> TargetManager -> create_target(); while loop freezes program if entities > approx{24}
 
 class Game:
     def __init__(self, screensize: tuple | list) -> None:
