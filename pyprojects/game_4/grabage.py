@@ -1,3 +1,4 @@
-import pygame
+colors = ["red", "yellow"]
+idx = 1
 
-print(type(pygame.Rect(10, 10, 50, 50).center))
+print(not idx)
