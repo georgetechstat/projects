@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp14
+{
+    internal class City
+    {
+        public string Name { get; set; }
+        public List<City> Neighbors { get; set; }
+        public List<Quest> Quests { get; set; }
+        public bool Complete { get; set; }
+        public City(string Name, List<City>? Neighbors = null, List<Quest>? Quests = null)
+        {
+            this.Name = Name;
+            this.Neighbors = Neighbors ?? new List<City>();
+            this.Quests = Quests ?? new List<Quest>();
+
+            if (this.Quests.Count > 0)
+            {
+                Complete = true;
+                foreach (Quest quest in this.Quests)
+                {
+                    if (!quest.Complete) Complete = false;
+                }
+            }
+            else
+            {
+                Complete = false;
+            }
+        }
+    }
+}
