@@ -13,12 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=pos)
 
         self.gun = None
-        
-        if not inv:
-            self.inventory = {"gun":Weapon((50, 20), (60, 0))}
-        else:
-            self.inventory = inv
-        
+        self.inventory = inv if inv else {"gun":Weapon((50, 20), (60, 0))}
         self.holding = self.inventory["gun"]
 
         self.vel = Vector2((0, 0))
@@ -41,10 +36,6 @@ class Player(pygame.sprite.Sprite):
     def update(self) -> None:
         self.update_pos()
         self.update_inv()
-    
-    def draw(self, surface: pygame.Surface):
-        surface.blit(self.image, self.rect)
-        surface.blit(self.holding.image, self.holding.rect)
 
 class Weapon(pygame.sprite.Sprite):
     def __init__(self, size, offset) -> None:
