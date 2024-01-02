@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp14
+{
+    internal class Quest
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Question { get; set; }
+        public string Answer { get; set; }
+        public bool Complete { get; set; }
+        public virtual void Start()
+        {
+            Console.WriteLine($"QUEST: {Name}");
+            for (int i = 0; i < Description.Length; i++)
+            {
+                Console.Write(Description[i]);
+                Thread.Sleep(20);
+            }
+            Console.Write('\n');
+
+            string UserAnswer;
+            bool running = true;
+            bool ExitStatus = false;
+
+            while (running)
+            {
+                for (int i = 0; i < Question.Length; i++)
+                {
+                    Console.Write(Question[i]);
+                    Thread.Sleep(20);
+                }
+
+                UserAnswer = Console.ReadLine();
+
+                if (UserAnswer.ToLower() == "exit")
+                {
+                    Complete = false;
+                    ExitStatus = true;
+                    break;
+                }
+
+                if (UserAnswer.ToLower() == Answer)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect guess, try again: ");
+                }
+            }
+            if (ExitStatus) Complete = false; else Complete = true;
+            if (Complete)
+            {
+                Console.WriteLine($"Congratulations, you have completed The Quest: \"{Name}\"");
+            }
+        }
+        public Quest(string Name, string Description, string Question, string Answer, bool Complete)
+        {
+            this.Name = Name;
+            this.Description = Description;
+            this.Complete = Complete;
+            this.Question = Question;
+            this.Answer = Answer;
+        }
+    }
+}
