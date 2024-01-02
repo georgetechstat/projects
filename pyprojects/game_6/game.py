@@ -6,9 +6,7 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 clock = pygame.time.Clock()
 
-plr = pygame.sprite.GroupSingle(obj.Player((400, 300), (50, 50), (255, 255, 0)))
-gun = pygame.sprite.GroupSingle(obj.Weapon((50, 20), (60, 0)))
-plr.sprite.gun = gun.sprite
+plr = obj.PlayerSingle(obj.Player((400, 300), (50, 50), (255, 255, 0)))
 
 while True:
     screen.fill((0, 0, 0))
@@ -23,9 +21,6 @@ while True:
     
     plr.update()
     plr.draw(screen)
-
-    gun.update()
-    gun.draw(screen)
 
     pygame.display.flip()
     clock.tick(60)
