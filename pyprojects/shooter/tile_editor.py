@@ -50,6 +50,15 @@ def quit_map():
     with open(os.path.join(os.getcwd(), "shooter/map.json"), "w") as f:
         f.write(json.dumps(TILEMAP))
 
+def get_tile_tl_pos():
+    """
+    Returns topleft of a tile (col, row) || (x, y)
+    """
+    mx, my = pygame.mouse.get_pos()
+    c = (mx // tile_size) * tile_size
+    r = (my // tile_size) * tile_size
+    return (c, r)
+
 while True:
     screen.fill((0, 0, 0))
     for event in pygame.event.get():
@@ -60,10 +69,13 @@ while True:
         
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                mx, my = pygame.mouse.get_pos()
-                c = (mx // tile_size) * tile_size
-                r = (my // tile_size) * tile_size
-                TILE_TOPLEFT_POS.add((c, r))
+                TILE_TOPLEFT_POS.add(get_tile_tl_pos())
+            
+            if event.button == 3:
+                tile_tl_pos = get_tile_tl_pos()
+                if tile_tl_pos in TILE_TOPLEFT_POS:
+                    TILE_TOPLEFT_POS.remove(tile_tl_pos)
+
 
     draw_cols()
     draw_rows()
