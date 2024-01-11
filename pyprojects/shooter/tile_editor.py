@@ -76,7 +76,6 @@ while True:
                 if tile_tl_pos in TILE_TOPLEFT_POS:
                     TILE_TOPLEFT_POS.remove(tile_tl_pos)
 
-
     draw_cols()
     draw_rows()
     draw_rects()
