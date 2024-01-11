@@ -9,8 +9,15 @@ MAP_PATH = os.path.join(os.getcwd(), "shooter/map.json") # Default path, you can
 
 with open(MAP_PATH, "r") as f:
     TILEMAP = json.loads(f.read())
+
+    #*EXPLANATION OF THE LINE BELOW:
+    # Inside the json file, TILEMAP["tile_pos"] is a nested list list[list[int, int]]
+    #*This project uses the ability of a set to store unique coordinates.
+    #!However, a set cannot identify list's "uniqueness" because of its unhashability, so, to fix this:
+    # Convert each sublist into a tuple (An immutable hashable iterable)
+    # and then convert the list[tuple[int, int]] into a set set[tuple[int, int]]
+
     TILE_TOPLEFT_POS = set([tuple(sublist) for sublist in TILEMAP["tile_pos"]])
-    print(TILE_TOPLEFT_POS)
 
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
