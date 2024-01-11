@@ -5,16 +5,15 @@ pygame.init()
 width, height = 800, 600
 tile_color = (0, 255, 0)
 tile_size = 40
+MAP_PATH = os.path.join(os.getcwd(), "shooter/map.json") # Default path, you can change to other map path
+
+with open(MAP_PATH, "r") as f:
+    TILEMAP = json.loads(f.read())
+    TILE_TOPLEFT_POS = set([tuple(sublist) for sublist in TILEMAP["tile_pos"]])
+    print(TILE_TOPLEFT_POS)
 
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
-
-TILEMAP = {
-    "tile_pos": []
-}
-
-# nested array of pos=tuple(x, y)
-TILE_TOPLEFT_POS = set()
 
 tile = pygame.Surface((tile_size, tile_size))
 tile.fill(tile_color)
